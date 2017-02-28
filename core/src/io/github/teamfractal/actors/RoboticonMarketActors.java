@@ -13,7 +13,7 @@ import io.github.teamfractal.RoboticonQuest;
 import io.github.teamfractal.entity.Market;
 import io.github.teamfractal.entity.Roboticon;
 import io.github.teamfractal.entity.enums.ResourceType;
-import io.github.teamfractal.screens.RoboticonMarketScreen;
+import io.github.teamfractal.screens.TimedMenuScreen;
 import io.github.teamfractal.util.SoundEffects;
 import io.github.teamfractal.util.MessagePopUp;
 
@@ -30,7 +30,7 @@ import java.util.HashMap;
 
 public class RoboticonMarketActors extends Table {
 	private RoboticonQuest game;
-	private RoboticonMarketScreen screen;
+	private TimedMenuScreen screen;
 	private Integer roboticonAmount = 0;
 	private int currentlySelectedRoboticonPos;
 	private Texture roboticonTexture;
@@ -64,10 +64,10 @@ public class RoboticonMarketActors extends Table {
 		food_texture = new Texture(Gdx.files.internal("roboticon_images/robot_food.png"));
 	}
 
-	public RoboticonMarketActors(final RoboticonQuest game, RoboticonMarketScreen screen) {
+	public RoboticonMarketActors(final RoboticonQuest game, TimedMenuScreen timedMenuScreen) {
 		this.game = game;
-		this.screen = screen;
-		final Stage stage = screen.getStage(); // Added by Josh Neil
+		this.screen = timedMenuScreen;
+		final Stage stage = timedMenuScreen.getStage(); // Added by Josh Neil
 		
 		final Market market = game.market; // Added by Josh Neil
 

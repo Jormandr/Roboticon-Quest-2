@@ -486,4 +486,22 @@ public class Player {
 				(getResource(FOOD)*game.market.getSellPrice(FOOD));
 		return score;
 	}
+	public void gambleResult(boolean win, int amount){
+		if(win){
+			this.setMoney(amount+this.getMoney());	
+		}
+		else{
+			this.setMoney(this.getMoney()-amount);
+		}
+	}
+	public void event(int mon,int foo,int ore, int ene){
+		if(mon+this.getMoney()>0)
+			this.setMoney(mon+this.getMoney());
+		if(ene+this.getEnergy()>0)
+			this.setEnergy(ene+this.getEnergy());
+		if(foo+this.getFood()>0)
+			this.setFood(foo+this.getFood());
+		if(ore+this.getOre()>0)
+			this.setOre(ore+this.getOre());
+	}
 }

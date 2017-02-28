@@ -8,37 +8,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import io.github.teamfractal.RoboticonQuest;
-import io.github.teamfractal.actors.RoboticonMarketActors;
-import io.github.teamfractal.entity.Market;
+import io.github.teamfractal.actors.RoboticonRandomActors;
 
-/**
- * The screen that players can use to buy and customise roboticons
- */
-public class RoboticonMarketScreen extends AbstractAnimationScreen implements Screen {
 
+public class RoboticonRandomScreen implements Screen {
 	final RoboticonQuest game;
 	final Stage stage;
 	final Table table;
-	private RoboticonMarketActors actors;
+	private final RoboticonRandomActors actors;
 	
-	/**
-	 * Constructor
-	 * @param game The RoboticonQuest object that contains the current player and market
-	 */
-	public RoboticonMarketScreen(final RoboticonQuest game) {
+	
+	public RoboticonRandomScreen(final RoboticonQuest game) {
 		this.game = game;
 		this.stage = new Stage(new ScreenViewport());
 		this.table = new Table();
 		table.setFillParent(true);
-    
-		actors = new RoboticonMarketActors(game, this);
-		stage.addActor(actors.getBackgroundImage());
 
-		table.top().left().add(actors).expand().fill();
+		actors = new RoboticonRandomActors(game, this); // generates actors for the screen
+		table.center().add(actors); // positions actors
 
 		stage.addActor(table);
 	}
-	
+
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
@@ -50,16 +41,12 @@ public class RoboticonMarketScreen extends AbstractAnimationScreen implements Sc
 
 		stage.act(delta);
 		stage.draw();
-
-		renderAnimation(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		actors.resizeScreen(width, height);
 		stage.getViewport().update(width, height, true);
-		game.getBatch().setProjectionMatrix(stage.getCamera().combined);
-		actors.widgetUpdate();
+		actors.screenResize(width, height);
 	}
 
 	@Override
@@ -86,18 +73,5 @@ public class RoboticonMarketScreen extends AbstractAnimationScreen implements Sc
 	}
 	public Stage getStage(){
 		return this.stage;
-	}
-
-	@Override
-	protected RoboticonQuest getGame() {
-		return game;
-	}
-
-	@Override
-	public Size getScreenSize() {
-		Size s = new Size();
-		s.Width = stage.getViewport().getScreenWidth();
-		s.Height = stage.getViewport().getScreenHeight();
-		return s;
 	}
 }

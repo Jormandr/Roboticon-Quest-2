@@ -130,7 +130,6 @@ public class GameScreenActors {
 
 	private void chanrun(){
 		Random rand=new Random();
-		System.out.println(game.getPhase());
 		this.c1=rand.nextInt((int) screen.getScreenSize().Width-3);
 		this.c2=rand.nextInt((int) screen.getScreenSize().Height-50)+30;
 		textUpdate();

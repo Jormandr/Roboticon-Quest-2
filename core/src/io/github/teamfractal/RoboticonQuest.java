@@ -184,12 +184,23 @@ public class RoboticonQuest extends Game {
 				generateResources();
 				break;
 			// Phase 5: Minigame
-			case 5:// Added by Jyothish Thomas
+			case 8:// Added by Jyothish Thomas
 				TimedMenuScreen minigame = new TimedMenuScreen(this,true);
 				minigame.addAnimation(new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 30));
 				setScreen(minigame);
 				break;
 			// Modified by Josh Neil
+			case 5://capture the chancellor
+				AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
+				gameScreen.addAnimation(timeoutAnimation2);
+				timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
+					@Override
+					public void OnAnimationFinish() {
+						gameScreen.getActors().hideInstallRoboticon();
+					}
+				});
+				setScreen(gameScreen);
+				break;
 			case 6:
 				// If the current player is not the last player
 				// then we want the next player to have their turn.

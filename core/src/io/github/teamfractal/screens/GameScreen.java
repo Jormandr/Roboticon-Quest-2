@@ -82,7 +82,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen  {
 		actors.initialiseButtons();
 		// actors.textUpdate();
 		
-		
 
 		// Drag the map within the screen.
 		stage.addListener(new DragListener() {
@@ -165,6 +164,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen  {
 						return ;
 					}
 					break;
+				
 				}
 
 				// The Y from screen starts from bottom left.

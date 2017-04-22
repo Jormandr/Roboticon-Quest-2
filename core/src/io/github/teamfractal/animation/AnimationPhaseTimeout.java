@@ -76,7 +76,7 @@ public class AnimationPhaseTimeout implements IAnimation {
 
 		int timeLeft = (int)(timeout - time) + 1;
 		String countdown = String.valueOf(timeLeft);
-
+		
 		synchronized (rect) {
 			rect.setProjectionMatrix(batch.getProjectionMatrix());
 			rect.begin(ShapeRenderer.ShapeType.Filled);

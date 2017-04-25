@@ -183,14 +183,10 @@ public class RoboticonQuest extends Game {
 				gameScreen.hideNextStageButton(); // Added by Josh Neil
 				generateResources();
 				break;
-			// Phase 5: Minigame
-			case 8:// Added by Jyothish Thomas
-				TimedMenuScreen minigame = new TimedMenuScreen(this,true);
-				minigame.addAnimation(new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 30));
-				setScreen(minigame);
-				break;
-			// Modified by Josh Neil
-			case 5://capture the chancellor
+			
+			// Added by Jyothish Thomas (Jormandr)
+			// Phase 5: Capture the chancellor
+			case 5:
 				AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
 				gameScreen.addAnimation(timeoutAnimation2);
 				timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
@@ -201,7 +197,17 @@ public class RoboticonQuest extends Game {
 				});
 				setScreen(gameScreen);
 				break;
+
+			// Added by Jyothish Thomas (Jormandr)	
+			// Phase 6: Minigame
 			case 6:
+				TimedMenuScreen minigame = new TimedMenuScreen(this,true);
+				minigame.addAnimation(new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 30));
+				setScreen(minigame);
+				break;
+				
+			// Modified by Josh Neil
+			case 7:
 				// If the current player is not the last player
 				// then we want the next player to have their turn.
 				// However if the current player is the last player then
@@ -220,7 +226,7 @@ public class RoboticonQuest extends Game {
 			// Added by Josh Neil - ensures that we go back to phase 1 if not all plots have been acquired or the last
 				// player has not yet had their turn
 				// and the game over screen otherwise
-			case 7:
+			case 8:
 				if(plotManager.allOwned() && currentPlayer == playerList.size() -1){
 					setScreen(new GameOverScreen(this));
 					break;

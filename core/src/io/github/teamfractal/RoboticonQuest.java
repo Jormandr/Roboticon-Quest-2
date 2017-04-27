@@ -185,9 +185,23 @@ public class RoboticonQuest extends Game {
 				gameScreen.hideNextStageButton(); // Added by Josh Neil
 				generateResources();
 				break;
+			
+			// Added by Jyotish Thomas with modification by Mark Henrick (Jormandr)
+			// Phase 5: Catch the chancellor
+			case 5:
+				AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
+				gameScreen.addAnimation(timeoutAnimation2);
+				timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
+					@Override
+					public void OnAnimationFinish() {
+						gameScreen.getActors().hideInstallRoboticon();
+					}
+				});
+				setScreen(gameScreen);
+				break;
 
 			// Modified by Josh Neil
-			case 5:
+			case 6:
 				// If the current player is not the last player
 				// then we want the next player to have their turn.
 				// However if the current player is the last player then
@@ -206,7 +220,7 @@ public class RoboticonQuest extends Game {
 			// Added by Josh Neil - ensures that we go back to phase 1 if not all plots have been acquired or the last
 				// player has not yet had their turn
 				// and the game over screen otherwise
-			case 6:
+			case 7:
 				if(plotManager.allOwned() && currentPlayer == playerList.size() -1){
 					setScreen(new GameOverScreen(this));
 					break;
@@ -296,8 +310,11 @@ public class RoboticonQuest extends Game {
 
 			case 4:
 				return "Resource Generation";
-
+			
 			case 5:
+				return "Catch the chancellor";
+
+			case 6:
 				return "Resource Auction";
 
 			default:
@@ -312,6 +329,16 @@ public class RoboticonQuest extends Game {
 	 */
 	public Player getPlayer(){
 		return this.playerList.get(this.currentPlayer);
+	}
+	
+	// Added by Mark Henrick (Jormandr) to help with catch the chancellor
+	/**
+	 * Returns the previous player
+	 * @return The previous player
+	 */
+	public Player getLastPlayer() {
+		// Java modulo behaves oddly with negatives, hence manual
+		return this.playerList.get((currentPlayer == 0 ? playerList.size() : currentPlayer) - 1);
 	}
 	
 	/**

@@ -18,6 +18,7 @@ public class DesktopLauncher {
 
 		config.backgroundFPS = 1;
 		config.vSyncEnabled = true;
+		config.resizable = false;
 
 		new LwjglApplication(new RoboticonQuest(), config);
 	}

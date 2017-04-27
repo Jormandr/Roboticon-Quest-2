@@ -1,6 +1,13 @@
 package io.github.teamfractal.actors;
 
+// Catch the chancellor related code added by Jyotish Thomas with modifications by Mark Henrick (Jormandr)
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -44,6 +51,11 @@ public class GameScreenActors {
 	private SpriteBatch batch;
 	private float scaleFactorX;
 	private float scaleFactorY;
+	// private Image chancellor; // TODO
+	public TextButton chancellor;
+	private int chancellor_x, chancellor_y; // TODO consider different data structure (Chancellor class?)
+	private final int CHANCELLOR_PHASE = 5;
+	private final int CHANCELLOR_REWARD = 50;
 
 	/**
 	 * Initialise the main game screen components.
@@ -58,6 +70,9 @@ public class GameScreenActors {
 		//Added by Christian Beddows
 		batch = (SpriteBatch) game.getBatch();
 		backgroundImage = new Image(new Texture(Gdx.files.internal("background/space-stars.jpeg")));
+		
+		// Uncomment when chancellor image available
+		// chancellor = game.getPhase() == CHANCELLOR_PHASE ? new Image(new Texture(Gdx.files.internal("path"))) : null;
 
 	}
 
@@ -80,6 +95,8 @@ public class GameScreenActors {
 		nextButton = new TextButton("Next ->", game.skin);
 		buyLandPlotBtn = new TextButton("Buy LandPlot", game.skin);
 		createRoboticonInstallMenu();
+		
+		chancellor = new TextButton("Catch me!", game.skin);
 
 		// Adjust properties.
 		listUpdated = false;
@@ -100,10 +117,27 @@ public class GameScreenActors {
 		stage.addActor(phaseInfo);
 		stage.addActor(plotStats);
 		stage.addActor(playerStats);
+		
+		// Chancellor movement
+		stage.addActor(chancellor);
+		Timer chancellorTimer = new Timer();
+		chancellorTimer.schedule(new TimerTask(){
+			@Override
+			public void run() {
+				chancellorRun();
+			}
+		}, 1000, 1000);
 
 		// Update UI positions.
 		AbstractAnimationScreen.Size size = screen.getScreenSize();
 		resizeScreen(size.Width, size.Height);
+	}
+	
+	private void chancellorRun() {
+		Random rand = new Random();
+		chancellor_x = rand.nextInt((int) screen.getScreenSize().Width - 3);
+		chancellor_y = rand.nextInt((int) screen.getScreenSize().Height - 50) + 30;
+		textUpdate();
 	}
 
 	private Table installRoboticonTable;
@@ -200,6 +234,26 @@ public class GameScreenActors {
 				///// Changed getRoboticonAmountList() to getCustomisedRoboticonAmountList()
 				///// Stop player's placing uncustomised roboticons
 				installRoboticonSelect.setItems(game.getPlayer().getCustomisedRoboticonAmountList());
+				textUpdate();
+			}
+		});
+		
+		chancellor.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				SoundEffects.click();
+				event.stop();
+				if (!chancellor.isVisible()) {
+					return;
+				}
+				buyLandPlotBtn.setVisible(false);
+				plotStats.setVisible(false);
+				hideInstallRoboticon();
+				game.nextPhase();
+				dropDownActive = true;
+				Player player = game.getLastPlayer();
+				int playerMoney = player.getMoney();
+				player.setMoney(playerMoney + CHANCELLOR_REWARD);
 				textUpdate();
 			}
 		});
@@ -351,6 +405,8 @@ public class GameScreenActors {
 	public void textUpdate() {
 		String phaseText = "Player " + (game.getPlayerInt() + 1) + "; Phase " + game.getPhase() + " - " + game.getPhaseString();
 		phaseInfo.setText(phaseText);
+		
+		chancellor.setPosition(chancellor_x, chancellor_y);
 
 		String statText = "Ore: " + game.getPlayer().getOre()
 				+ " Energy: " + game.getPlayer().getEnergy()
@@ -358,6 +414,8 @@ public class GameScreenActors {
 				+ " Money: " + game.getPlayer().getMoney();
 
 		playerStats.setText(statText);
+		
+		chancellor.setVisible(game.getPhase() == CHANCELLOR_PHASE);
 	}
 
 	/**
@@ -374,6 +432,8 @@ public class GameScreenActors {
 
 		playerStats.setPosition(10, topBarY);
 		nextButton.setPosition(width - nextButton.getWidth() - 10, 10);
+		
+		chancellor.setPosition(width/2, height/2);
 
 		scaleFactorX = width/backgroundImage.getWidth();
 		scaleFactorY = height/backgroundImage.getHeight();

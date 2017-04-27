@@ -2,6 +2,7 @@ package io.github.teamfractal;
 // Executable version can be found here: https://sepr-topright.github.io/SEPR/documentation/assessment3/game.zip
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -30,7 +31,7 @@ import io.github.teamfractal.util.PlotManager;
  */
 public class RoboticonQuest extends Game {
 	// Configuration
-	private final int PLAYER_COUNT = 4;
+	public int PLAYER_COUNT = 4;
 	
 	static RoboticonQuest _instance;
 	
@@ -42,7 +43,7 @@ public class RoboticonQuest extends Game {
 		return _instance;
 	}
 
-
+	private Random rand=new Random();
 	private PlotManager plotManager;
 	SpriteBatch batch;
 	public Skin skin;
@@ -179,15 +180,20 @@ public class RoboticonQuest extends Game {
 				break;
 
 			// Phase 4: Purchase Resource
-			case 4:
+			case 5:
 				gameScreen.hideNextStageButton(); // Added by Josh Neil
 				generateResources();
 				break;
 			
 			// Added by Jyothish Thomas (Jormandr)
 			// Phase 5: Capture the chancellor
-			case 5:
+			case 4:
+				int chance=rand.nextInt(8);
+				System.out.println(chance);
+				if(chance<3)
+					this.nextPhase();
 				AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
+				setScreen(gameScreen);
 				gameScreen.addAnimation(timeoutAnimation2);
 				timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
 					@Override
@@ -195,7 +201,6 @@ public class RoboticonQuest extends Game {
 						gameScreen.getActors().hideInstallRoboticon();
 					}
 				});
-				setScreen(gameScreen);
 				break;
 
 			// Added by Jyothish Thomas (Jormandr)	
@@ -314,11 +319,11 @@ public class RoboticonQuest extends Game {
 			case 3:
 				return "Install Roboticons";
 
-			case 4:
+			case 5:
 				return "Resource Generation";
 
 			// Modified by Mark Henrick (Jormandr) with new strings
-			case 5:
+			case 4:
 				return "Catch the Chancellor";
 				
 			case 6:

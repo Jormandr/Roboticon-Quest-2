@@ -409,7 +409,7 @@ public class GameScreenActors {
 				+ " Food: " + game.getPlayer().getFood()
 				+ " Money: " + game.getPlayer().getMoney();
 		playerStats.setText(statText);
-		if(game.getPhase()==5)
+		if(game.getPhase()==4)
 			chancellor.setVisible(true);
 		else
 			chancellor.setVisible(false);

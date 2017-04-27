@@ -317,7 +317,14 @@ public class RoboticonQuest extends Game {
 			case 4:
 				return "Resource Generation";
 
+			// Modified by Mark Henrick (Jormandr) with new strings
 			case 5:
+				return "Catch the Chancellor";
+				
+			case 6:
+				return "Gambling";
+
+			case 7:
 				return "Resource Auction";
 
 			default:

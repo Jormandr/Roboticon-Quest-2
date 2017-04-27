@@ -1,11 +1,14 @@
 package io.github.teamfractal.actors;
 
+// Player count buttons added by Jyotish Thomas (Jormandr)
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,6 +24,10 @@ public class HomeMainMenu extends Table {
 	private RoboticonQuest game;
 	private TextButton btnNewGame;
 	private TextButton btnExit;
+	private TextButton players;
+	private TextButton addPlayerButton;
+	private TextButton subPlayerButton;
+	private Label playerCount;
 	private Image backgroundImage;
 	private SpriteBatch batch;
 	private float scaleFactorX;
@@ -34,10 +41,16 @@ public class HomeMainMenu extends Table {
 	 */
 	public HomeMainMenu(RoboticonQuest game) {
 		this.game = game;
+		
+		playerCount = new Label("4", game.skin);
+		playerCount.setText("4");
 
 		//Added by Christian Beddows
 		batch = (SpriteBatch) game.getBatch();
 		backgroundImage = new Image(new Texture(Gdx.files.internal("background/corridor.jpg")));
+		
+		addPlayerButton = new TextButton("+", game.skin);
+		subPlayerButton = new TextButton("-", game.skin);
 
 		// Create UI Components
 		final Image imgTitle = new Image();
@@ -55,6 +68,10 @@ public class HomeMainMenu extends Table {
 
 		// Add UI Components to table.
 		add(imgTitle);
+		row();
+		add(subPlayerButton).padLeft(-80);
+		add(playerCount).padLeft(-535);
+		add(addPlayerButton).padLeft(-455);
 		row();
 		add(btnNewGame).pad(5);
 		row();
@@ -92,6 +109,24 @@ public class HomeMainMenu extends Table {
 				SoundEffects.click();
 				game.setScreen(game.gameScreen);
 				game.gameScreen.newGame();
+			}
+		});
+		
+		addPlayerButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(game.PLAYER_COUNT<4)
+					game.PLAYER_COUNT += 1;
+				playerCount.setText(Integer.toString(game.PLAYER_COUNT));
+			}
+		});
+
+		subPlayerButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(game.PLAYER_COUNT>2)
+					game.PLAYER_COUNT -= 1;
+				playerCount.setText(Integer.toString(game.PLAYER_COUNT));
 			}
 		});
 

@@ -31,7 +31,7 @@ import io.github.teamfractal.util.PlotManager;
 public class RoboticonQuest extends Game {
 	// Added by Mark Henrick (Jormandr)
 	// Configuration
-	private final int PLAYER_COUNT = 4;
+	public int PLAYER_COUNT = 4;
 	
 	static RoboticonQuest _instance;
 	

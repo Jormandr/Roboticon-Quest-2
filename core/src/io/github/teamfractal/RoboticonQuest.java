@@ -29,6 +29,10 @@ import io.github.teamfractal.util.PlotManager;
  * It will set up all the necessary classes.
  */
 public class RoboticonQuest extends Game {
+	// Added by Mark Henrick (Jormandr)
+	// Configuration
+	private final int PLAYER_COUNT = 4;
+	
 	static RoboticonQuest _instance;
 	
 	/**
@@ -136,12 +140,11 @@ public class RoboticonQuest extends Game {
 		this.currentPlayer = 0;
 		this.phase = 0;
 
-		Player player1 = new Player(this);
-		Player player2 = new Player(this);
-		this.playerList = new ArrayList<Player>();
-		this.playerList.add(player1);
-		this.playerList.add(player2);
-		this.currentPlayer = 0;
+		// Arbitrary player count added by Mark Henrick (Jormandr)
+		playerList = new ArrayList<Player>();
+		for (int i = 0; i < PLAYER_COUNT; i++) {
+			playerList.add(new Player(this));
+		}
 		this.market = new Market();
 		plotManager = new PlotManager();
 	}

@@ -1,6 +1,7 @@
 package io.github.teamfractal.actors;
 
 // Player count buttons added by Jyotish Thomas (Jormandr)
+// Menu theme modified by Mark Henrick (Jormandr)
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,7 +28,9 @@ public class HomeMainMenu extends Table {
 	private TextButton players;
 	private TextButton addPlayerButton;
 	private TextButton subPlayerButton;
+	private Label paddingLabel;
 	private Label playerCount;
+	private TextButton playerCountLabel;
 	private Image backgroundImage;
 	private SpriteBatch batch;
 	private float scaleFactorX;
@@ -44,6 +47,10 @@ public class HomeMainMenu extends Table {
 		
 		playerCount = new Label("4", game.skin);
 		playerCount.setText("4");
+		playerCountLabel = new TextButton("Players", game.skin);
+		playerCountLabel.setText("Players");
+		
+		paddingLabel = new Label("", game.skin);
 
 		//Added by Christian Beddows
 		batch = (SpriteBatch) game.getBatch();
@@ -68,6 +75,10 @@ public class HomeMainMenu extends Table {
 
 		// Add UI Components to table.
 		add(imgTitle);
+		row();
+		add(paddingLabel).pad(50);
+		row();
+		add(playerCountLabel);
 		row();
 		add(subPlayerButton).padLeft(-80);
 		add(playerCount).padLeft(-535);

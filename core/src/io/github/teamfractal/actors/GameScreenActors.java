@@ -51,8 +51,7 @@ public class GameScreenActors {
 	private SpriteBatch batch;
 	private float scaleFactorX;
 	private float scaleFactorY;
-	// private Image chancellor; // TODO
-	public TextButton chancellor;
+	private Image chancellor;
 	private int chancellor_x, chancellor_y; // TODO consider different data structure (Chancellor class?)
 	private final int CHANCELLOR_PHASE = 5;
 	private final int CHANCELLOR_REWARD = 50;
@@ -70,9 +69,6 @@ public class GameScreenActors {
 		//Added by Christian Beddows
 		batch = (SpriteBatch) game.getBatch();
 		backgroundImage = new Image(new Texture(Gdx.files.internal("background/space-stars.jpeg")));
-		
-		// Uncomment when chancellor image available
-		// chancellor = game.getPhase() == CHANCELLOR_PHASE ? new Image(new Texture(Gdx.files.internal("path"))) : null;
 
 	}
 
@@ -96,7 +92,7 @@ public class GameScreenActors {
 		buyLandPlotBtn = new TextButton("Buy LandPlot", game.skin);
 		createRoboticonInstallMenu();
 		
-		chancellor = new TextButton("Catch me!", game.skin);
+		chancellor = new Image(new Texture(Gdx.files.internal("chancellor.png")));
 
 		// Adjust properties.
 		listUpdated = false;

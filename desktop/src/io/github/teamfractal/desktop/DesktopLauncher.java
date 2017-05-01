@@ -18,7 +18,6 @@ public class DesktopLauncher {
 
 		config.backgroundFPS = 1;
 		config.vSyncEnabled = true;
-		config.resizable = false;
 		config.title = "York 2217";
 
 		new LwjglApplication(new RoboticonQuest(), config);

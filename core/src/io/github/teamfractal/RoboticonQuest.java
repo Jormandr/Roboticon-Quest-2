@@ -2,6 +2,7 @@ package io.github.teamfractal;
 // Executable version can be found here: https://sepr-topright.github.io/SEPR/documentation/assessment3/game.zip
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -55,6 +56,7 @@ public class RoboticonQuest extends Game {
 	public Market market;
 	private int landBoughtThisTurn;
 	private Music gameMusic;
+	private Random rand = new Random();
 
 	/**
 	 * Returns the index at which a given player is stored in the playerList
@@ -180,24 +182,32 @@ public class RoboticonQuest extends Game {
 				setScreen(gameScreen);
 				break;
 
-			// Phase 4: Purchase Resource
-			case 4:
-				gameScreen.hideNextStageButton(); // Added by Josh Neil
-				generateResources();
-				break;
+
 			
 			// Added by Jyotish Thomas with modification by Mark Henrick (Jormandr)
 			// Phase 5: Catch the chancellor
 			case 5:
-				AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
-				gameScreen.addAnimation(timeoutAnimation2);
-				timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
-					@Override
-					public void OnAnimationFinish() {
-						gameScreen.getActors().hideInstallRoboticon();
-					}
-				});
-				setScreen(gameScreen);
+				if (rand.nextInt(8) > 3) {
+					AnimationPhaseTimeout timeoutAnimation2 = new AnimationPhaseTimeout(getPlayer(), this, newPhaseState, 15);
+					gameScreen.addAnimation(timeoutAnimation2);
+					timeoutAnimation2.setAnimationFinish(new IAnimationFinish() {
+						@Override
+						public void OnAnimationFinish() {
+							gameScreen.getActors().hideInstallRoboticon();
+						}
+					});
+					setScreen(gameScreen);
+				} else {
+					System.out.println("Chancellor shall not appear");
+					nextPhase();
+				}
+				break;
+			
+			// Has to come after 5 because control flow reasons
+			// Phase 4: Purchase Resource
+			case 4:
+				gameScreen.hideNextStageButton(); // Added by Josh Neil
+				generateResources();
 				break;
 
 			// Modified by Josh Neil
